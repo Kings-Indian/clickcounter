@@ -3,12 +3,29 @@
   <body>
     <button id="btn">Click me!</button>
     <p id="count">0</p>
+    <p id="cps">CPS: 0</p>
     <script>
       let count = 0;
+      let clicks = 0;
+      let startTime = null;
+
       document.getElementById('btn').onclick = function() {
         count++;
+        clicks++;
         document.getElementById('count').textContent = count;
+
+        if (!startTime) {
+          startTime = Date.now();
+        }
       };
+
+      setInterval(function() {
+        if (startTime) {
+          let elapsed = (Date.now() - startTime) / 1000;
+          let cps = elapsed > 0 ? (clicks / elapsed).toFixed(2) : 0;
+          document.getElementById('cps').textContent = 'CPS: ' + cps;
+        }
+      }, 200);
     </script>
   </body>
 </html>
